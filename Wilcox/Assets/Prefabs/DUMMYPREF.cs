@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DUMMY : MonoBehaviour {
+public class DUMMYPREF : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
