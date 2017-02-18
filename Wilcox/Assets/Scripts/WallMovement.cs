@@ -6,8 +6,10 @@ public class WallMovement : MonoBehaviour {
     public float forwardForce;
     public float rightForce;
     public float jumpForce;
+    public float slideForce;
 
     public float maxSpeed;
+    public float maxSlideSpeed;
 
     public bool canJumpOnSameWall;
 
@@ -23,6 +25,8 @@ public class WallMovement : MonoBehaviour {
     public float maxGlideTime;
     private bool sliding = false;
     private Vector3 totalMoveForce;
+    private Vector3 collisionPoint;
+    private Vector3 myCollisionPosition;
 
     private bool activeScript = false;
     private int totalCollidingObjects = 0;
@@ -57,6 +61,12 @@ public class WallMovement : MonoBehaviour {
         else
         {
             SlideMovement();
+            //glideTimer += Time.deltaTime;
+            //if (glideTimer >= this.maxGlideTime)
+            //{
+            //    sliding = false;
+            //    glideTimer = 0;
+            //}
         }
     }
 
@@ -75,7 +85,8 @@ public class WallMovement : MonoBehaviour {
         activeScript = true;
         //doesnt work for multiplecollisions at once ERROR
         collisionNormal = collision.contacts[0].normal;
-        
+        collisionPoint = collision.contacts[0].point;
+        myCollisionPosition = transform.position;
         if (canJumpOnSameWall || lastSlidedWall != collision.gameObject)
         {
             canSlide = true;
@@ -148,11 +159,18 @@ public class WallMovement : MonoBehaviour {
 
     private void SlideMovement()
     {
-        Vector3 projectedForward = Vector3.Project(GetComponent<Rigidbody>().velocity, this.collidingWall.transform.forward);
-        // Check that we're not flying too fast
-        if (projectedForward.magnitude < maxSpeed)
+        GetComponent<Rigidbody>().useGravity = false;
+        Vector3 cn = collisionNormal;
+        Vector3 cp = collisionPoint;
+        Vector3 op = myCollisionPosition;
+        Vector3 cnInPlane = Vector3.ProjectOnPlane(cn, new Vector3(0, 1, 0));
+        Vector3 cpopInPlane = Vector3.ProjectOnPlane(cp - op, new Vector3(0, 1, 0));
+        Vector3 signedUp = Vector3.Cross(cnInPlane, cpopInPlane);
+        Vector3 target = Vector3.Cross(cnInPlane, signedUp);
+
+        if (Vector3.Project(GetComponent<Rigidbody>().velocity, target.normalized).magnitude < maxSlideSpeed)
         {
-            this.GetComponent<Rigidbody>().AddForce(projectedForward.normalized * forwardForce);
+            totalMoveForce += target.normalized * slideForce;
         }
     }
 }

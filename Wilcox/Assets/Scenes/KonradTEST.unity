@@ -291,7 +291,9 @@ MonoBehaviour:
   forwardForce: 10
   rightForce: 10
   jumpForce: 500
+  slideForce: 15
   maxSpeed: 50
+  maxSlideSpeed: 20
   canJumpOnSameWall: 0
   maxGlideTime: 0
 --- !u!75 &970329666
