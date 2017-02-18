@@ -38,23 +38,38 @@ public class Movement : MonoBehaviour {
         Vector3 totalMoveForce = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))
         {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.forward * forwardForce;
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.forward).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += this.transform.forward * forwardForce;
+            }
         }
         if (Input.GetKey(KeyCode.S))
-        {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * this.transform.forward * forwardForce;
+        {            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += -1 * this.transform.forward * forwardForce;
+            }
         }
         if (Input.GetKey(KeyCode.A))
         {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * this.transform.right * rightForce;
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.right).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += -1 * this.transform.right * rightForce;
+            }
         }
         if (Input.GetKey(KeyCode.D))
         {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.right * rightForce;
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.right).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += this.transform.right * rightForce;
+            }
         }
         if (Input.GetKey(KeyCode.Q))
         {
