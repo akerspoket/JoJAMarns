@@ -37,14 +37,19 @@ public class WallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!activeScript)
-        {
-            return;
-        }
-        if (GetComponent<Rigidbody>().velocity.magnitude > maxSlideSpeed)
+        //if (!activeScript)
+        //{
+        //    return;
+        //}
+        Vector3 xzVelocity = Vector3.ProjectOnPlane(GetComponent<Rigidbody>().velocity, new Vector3(0, 1, 0));
+        if (sliding && GetComponent<Rigidbody>().velocity.magnitude > maxSlideSpeed)
         {
             //print("Setvelo");
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * maxSlideSpeed;
+        }    
+        else if ((xzVelocity).magnitude >= maxSpeed)
+        {
+            GetComponent<Rigidbody>().velocity = xzVelocity.normalized * maxSpeed + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
         }
         totalMoveForce = new Vector3(0, 0, 0);
         if (canSlide && Input.GetKey(KeyCode.Space))
@@ -78,11 +83,11 @@ public class WallMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (!activeScript)
-        {
-            return;
-        }
-        this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+        //if (!activeScript)
+        //{
+        //    return;
+        //}
+        this.GetComponent<Rigidbody>().AddForce(totalMoveForce, ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -118,17 +123,19 @@ public class WallMovement : MonoBehaviour {
         {
             // print("No longer in contact with " + collisionInfo.transform.name);
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, -collisionNormal, out hit, 4))
+            Vector3 currentVelocity = this.GetComponent<Rigidbody>().velocity;
+            if (Physics.Raycast(transform.position + currentVelocity * 0.1f, -collisionNormal, out hit, 4))
             {
-                print("Hit something");
-                if (hit.transform.gameObject == transform.gameObject)
-                {
-                    print("Hit self");
-                }
-                //transform.position = hit.point + hit.normal * GetComponent<SphereCollider>().radius;
-                totalMoveForce += hit.normal * -1000 * hit.distance;
-                this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+                //print(hit.transform.name);
+
+                float currentSpeed = currentVelocity.magnitude;
+                Vector3 newVelocity = Vector3.ProjectOnPlane(currentVelocity, hit.normal);
+                print(currentVelocity);
+                newVelocity = newVelocity.normalized * currentSpeed;
+                print(newVelocity);
+                this.GetComponent<Rigidbody>().velocity = newVelocity;
                 totalCollidingObjects--;
+                this.totalMoveForce = new Vector3(0, 0, 0);
                 return;
             }
         }
@@ -147,40 +154,31 @@ public class WallMovement : MonoBehaviour {
 
     void KeyMovement()
     {
+        Vector3 xzForward = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
         if (Input.GetKey(KeyCode.W))
-        {
-            // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.forward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, this.transform.forward) < 0)
-            {
-                // Add force to where the object's transform is pointing
-                totalMoveForce += this.transform.forward * forwardForce;
-            }
+        {       
+            // Add force to where the object's transform is pointing
+            totalMoveForce += xzForward.normalized * forwardForce;
+          
         }
         if (Input.GetKey(KeyCode.S))
-        {            // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward) < 0)
-            {
-                // Add force to where the object's transform is pointing
-                totalMoveForce += -1 * this.transform.forward * forwardForce;
-            }
+        { 
+            // Add force to where the object's transform is pointing
+            totalMoveForce += -1 * xzForward.normalized * forwardForce;
+            
         }
         if (Input.GetKey(KeyCode.A))
         {
-            // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.right).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * this.transform.right) < 0)
-            {
-                // Add force to where the object's transform is pointing
-                totalMoveForce += -1 * this.transform.right * rightForce;
-            }
+            // Add force to where the object's transform is pointing
+            totalMoveForce += -1 * this.transform.right * rightForce;
+            
         }
         if (Input.GetKey(KeyCode.D))
         {
-            // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.right).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, this.transform.right) < 0)
-            {
-                // Add force to where the object's transform is pointing
-                totalMoveForce += this.transform.right * rightForce;
-            }
+            
+            // Add force to where the object's transform is pointing
+            totalMoveForce += this.transform.right * rightForce;
+            
         }   
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -188,7 +186,7 @@ public class WallMovement : MonoBehaviour {
             // Add force to where the object's we are standing on's transform is pointing
             if (collidingWall != null)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1.8f, 0);
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1.2f, 0);
                 totalMoveForce += jumpDirection.normalized * jumpForce;
             }
         }
