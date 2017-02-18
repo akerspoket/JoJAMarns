@@ -24,6 +24,7 @@ public class AirMovement : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+
         if (active)
         {
             totalMoveForce = new Vector3(0, 0, 0);
@@ -80,5 +81,6 @@ public class AirMovement : MonoBehaviour
     void OnCollisionExit(Collision collisionInfo)
     {
         active = true;
+        totalMoveForce = new Vector3(0, 0, 0);
     }
 }

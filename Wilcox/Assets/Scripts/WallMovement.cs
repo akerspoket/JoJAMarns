@@ -41,6 +41,11 @@ public class WallMovement : MonoBehaviour {
         {
             return;
         }
+        if (GetComponent<Rigidbody>().velocity.magnitude > maxSlideSpeed)
+        {
+            print("Setvelo");
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * maxSlideSpeed;
+        }
         totalMoveForce = new Vector3(0, 0, 0);
         if (canSlide && Input.GetKey(KeyCode.Space))
         {
@@ -165,7 +170,7 @@ public class WallMovement : MonoBehaviour {
             // Add force to where the object's we are standing on's transform is pointing
             if (collidingWall != null)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1, 0);
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1.8f, 0);
                 totalMoveForce += jumpDirection.normalized * jumpForce;
             }
         }
@@ -187,9 +192,12 @@ public class WallMovement : MonoBehaviour {
 
         if (Vector3.Project(GetComponent<Rigidbody>().velocity, target.normalized).magnitude < maxSlideSpeed)
         {
+            //print(target.normalized);
             totalMoveForce += target.normalized * slideForce;
         }
-        totalMoveForce += (-1 * cn * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);
-        print(totalMoveForce.magnitude);
+        Vector3 addForce = (-1 * cn.normalized * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);// 
+        //print(addForce);
+        totalMoveForce += addForce;
+        print(totalMoveForce.magnitude + "" + cn + " " + totalMoveForce + "" + GetComponent<Rigidbody>().velocity);
     }
 }
