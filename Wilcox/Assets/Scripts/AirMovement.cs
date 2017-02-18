@@ -7,7 +7,6 @@ public class AirMovement : MonoBehaviour
 
     public float forwardForce;
     public float rightForce;
-    public float rotateSpeed;
 
     public float maxSpeed;
 
@@ -63,17 +62,14 @@ public class AirMovement : MonoBehaviour
                     totalMoveForce += this.transform.right * rightForce;
                 }
             }
-
-            ///Mouse movement
-            yaw += rotateSpeed * Input.GetAxis("Mouse X");
-            pitch -= rotateSpeed * Input.GetAxis("Mouse Y");
-
-            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
         }
 	}
     void FixedUpdate()
     {
-        this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+        if (active)
+        {
+            this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+        }
     }
 
     void OnCollisionEnter(Collision collisioninfo)

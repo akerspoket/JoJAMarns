@@ -6,14 +6,12 @@ public class WallMovement : MonoBehaviour {
     public float forwardForce;
     public float rightForce;
     public float jumpForce;
-    public float rotateSpeed;
 
     public float maxSpeed;
 
     public bool canJumpOnSameWall;
 
-    private float yaw = 0.0f;
-    private float pitch = 0.0f;
+
 
     private float upForce;
 
@@ -60,7 +58,6 @@ public class WallMovement : MonoBehaviour {
         {
             SlideMovement();
         }
-        MouseMovement();
     }
 
     void FixedUpdate()
@@ -99,7 +96,6 @@ public class WallMovement : MonoBehaviour {
 
     void KeyMovement()
     {
-        print(GetComponent<Rigidbody>().velocity);
         if (Input.GetKey(KeyCode.W))
         {
             // Check that we're not flying too fast
@@ -148,15 +144,7 @@ public class WallMovement : MonoBehaviour {
 
     }
 
-    void MouseMovement()
-    {
 
-        // Rotation now depending on how fast you move mouse
-        yaw += rotateSpeed * Input.GetAxis("Mouse X");
-        pitch -= rotateSpeed * Input.GetAxis("Mouse Y");
-
-        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
-    }
 
     private void SlideMovement()
     {
