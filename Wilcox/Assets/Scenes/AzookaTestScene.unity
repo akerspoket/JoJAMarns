@@ -543,7 +543,7 @@ MonoBehaviour:
   maxForce: 10.5
   jumpForce: 200
   rotateSpeed: 3
-  maxSpeed: 10
+  maxSpeed: 5
 --- !u!1 &992128823
 GameObject:
   m_ObjectHideFlags: 0
