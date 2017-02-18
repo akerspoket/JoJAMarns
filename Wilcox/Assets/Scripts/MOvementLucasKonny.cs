@@ -10,7 +10,6 @@ public class MOvementLucasKonny : MonoBehaviour
 
     public float forwardForce;
     public float rightForce;
-    public float maxForce;
     public float jumpForce;
     public float rotateSpeed;
 
@@ -91,11 +90,12 @@ public class MOvementLucasKonny : MonoBehaviour
 
     void KeyMovement()
     {
+        print(GetComponent<Rigidbody>().velocity);
         Vector3 totalMoveForce = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))
         {
             // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.forward).magnitude < maxSpeed)
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.forward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, this.transform.forward) < 0)
             {
                 // Add force to where the object's transform is pointing
                 totalMoveForce += this.transform.forward * forwardForce;
@@ -103,7 +103,7 @@ public class MOvementLucasKonny : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.S))
         {            // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward).magnitude < maxSpeed)
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward) < 0)
             {
                 // Add force to where the object's transform is pointing
                 totalMoveForce += -1 * this.transform.forward * forwardForce;
@@ -112,7 +112,7 @@ public class MOvementLucasKonny : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.right).magnitude < maxSpeed)
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.right).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * this.transform.right) < 0)
             {
                 // Add force to where the object's transform is pointing
                 totalMoveForce += -1 * this.transform.right * rightForce;
@@ -121,7 +121,7 @@ public class MOvementLucasKonny : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             // Check that we're not flying too fast
-            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.right).magnitude < maxSpeed)
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.right).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, this.transform.right) < 0)
             {
                 // Add force to where the object's transform is pointing
                 totalMoveForce += this.transform.right * rightForce;
@@ -144,7 +144,8 @@ public class MOvementLucasKonny : MonoBehaviour
             // Add force to where the object's we are standing on's transform is pointing
             if (collidingWall != null)
             {
-                this.GetComponent<Rigidbody>().AddForce(collisionNormal * jumpForce);
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1, 0);
+                this.GetComponent<Rigidbody>().AddForce(jumpDirection.normalized * jumpForce);
             }
         }
 
