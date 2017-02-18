@@ -43,7 +43,7 @@ public class WallMovement : MonoBehaviour {
         }
         if (GetComponent<Rigidbody>().velocity.magnitude > maxSlideSpeed)
         {
-            print("Setvelo");
+            //print("Setvelo");
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * maxSlideSpeed;
         }
         totalMoveForce = new Vector3(0, 0, 0);
@@ -87,7 +87,7 @@ public class WallMovement : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        //print("Entercollision");
+        print("Entercollision");
         totalCollidingObjects++;
         activeScript = true;
         //doesnt work for multiplecollisions at once ERROR
@@ -114,6 +114,24 @@ public class WallMovement : MonoBehaviour {
     }
     void OnCollisionExit(Collision collisionInfo)
     {
+        if (sliding)
+        {
+            // print("No longer in contact with " + collisionInfo.transform.name);
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, -collisionNormal, out hit, 4))
+            {
+                print("Hit something");
+                if (hit.transform.gameObject == transform.gameObject)
+                {
+                    print("Hit self");
+                }
+                //transform.position = hit.point + hit.normal * GetComponent<SphereCollider>().radius;
+                totalMoveForce += hit.normal * -1000 * hit.distance;
+                this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+                totalCollidingObjects--;
+                return;
+            }
+        }
         totalCollidingObjects--;
         if (totalCollidingObjects == 0)
         {
@@ -122,8 +140,8 @@ public class WallMovement : MonoBehaviour {
             collidingWall = null;
             sliding = false;
             GetComponent<Rigidbody>().useGravity = true;
+            this.totalMoveForce = new Vector3(0, 0, 0);
         }
-        // print("No longer in contact with " + collisionInfo.transform.name);
 
     }
 
@@ -197,7 +215,7 @@ public class WallMovement : MonoBehaviour {
         }
         Vector3 addForce = (-1 * cn.normalized * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);// 
         //print(addForce);
-        totalMoveForce += addForce;
-        print(totalMoveForce.magnitude + "" + cn + " " + totalMoveForce + "" + GetComponent<Rigidbody>().velocity);
+        //totalMoveForce += addForce;
+        //print(totalMoveForce.magnitude + "" + cn + " " + totalMoveForce + "" + GetComponent<Rigidbody>().velocity);
     }
 }
