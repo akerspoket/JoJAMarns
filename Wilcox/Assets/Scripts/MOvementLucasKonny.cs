@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class MOvementLucasKonny : MonoBehaviour
     private bool canSlide = false;
     private GameObject lastSlidedWall;
     private GameObject collidingWall;
+    private Vector3 collisionNormal;
     private float glideTimer = 0.0f;
     public float maxGlideTime;
     private bool sliding = false;
@@ -35,10 +37,6 @@ public class MOvementLucasKonny : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        KeyMovement();
-        MouseMovement();
-        if (upForce > 0)
-            upForce -= 0.1f;
         if (canSlide && Input.GetKey(KeyCode.Space))
         {
             lastSlidedWall = collidingWall;
@@ -51,13 +49,33 @@ public class MOvementLucasKonny : MonoBehaviour
         {
             sliding = false;
             GetComponent<Rigidbody>().useGravity = true;
+        }
+        if (!sliding)
+        {
+            KeyMovement();
+        }
+        else
+        {
+            SlideMovement();
+        }
+        MouseMovement();
+    }
 
+    private void SlideMovement()
+    {
+               
+        Vector3 projectedForward = Vector3.Project(GetComponent<Rigidbody>().velocity, this.collidingWall.transform.forward);
+        // Check that we're not flying too fast
+        if (projectedForward.magnitude < maxSpeed)
+        {
+            this.GetComponent<Rigidbody>().AddForce(projectedForward.normalized * forwardForce);
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
         //doesnt work for multiplecollisions at once ERROR
+        collisionNormal = collision.contacts[0].normal;
         if (lastSlidedWall != collision.gameObject)
         {
             canSlide = true;
@@ -66,8 +84,9 @@ public class MOvementLucasKonny : MonoBehaviour
     }
     void OnCollisionExit(Collision collisionInfo)
     {
-        print("No longer in contact with " + collisionInfo.transform.name);
+        // print("No longer in contact with " + collisionInfo.transform.name);
         canSlide = false;
+        collidingWall = null;
     }
 
     void KeyMovement()
@@ -75,27 +94,38 @@ public class MOvementLucasKonny : MonoBehaviour
         Vector3 totalMoveForce = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.W))
         {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.forward * forwardForce;
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.forward).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += this.transform.forward * forwardForce;
+            }
         }
         if (Input.GetKey(KeyCode.S))
-        {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * this.transform.forward * forwardForce;
+        {            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += -1 * this.transform.forward * forwardForce;
+            }
         }
         if (Input.GetKey(KeyCode.A))
         {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * this.transform.right * rightForce;
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.right).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += -1 * this.transform.right * rightForce;
+            }
         }
         if (Input.GetKey(KeyCode.D))
         {
-            // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.right * rightForce;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            upForce = 10;
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.right).magnitude < maxSpeed)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += this.transform.right * rightForce;
+            }
         }
         totalMoveForce += upForce * new Vector3(0, 1, 0);
 
@@ -111,8 +141,11 @@ public class MOvementLucasKonny : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Add force to where the object's transform is pointing
-            this.GetComponent<Rigidbody>().AddForce(this.transform.up * jumpForce);
+            // Add force to where the object's we are standing on's transform is pointing
+            if (collidingWall != null)
+            {
+                this.GetComponent<Rigidbody>().AddForce(collisionNormal * jumpForce);
+            }
         }
 
     }
