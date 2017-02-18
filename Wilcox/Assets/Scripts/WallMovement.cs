@@ -31,16 +31,24 @@ public class WallMovement : MonoBehaviour {
 
     private bool activeScript = false;
     private int totalCollidingObjects = 0;
+
+    private float jumpTimer = 0;
+    private float jumpCoolDownTimer = 0;
+    private float jumpOnSameWallCoolDownTimer = 0;
+    public float leftWallJumpTimer = 0.2f;
+    public float OkToJumpDistance = 1;
+    public float jumpCoolDown = 0.2f;
+    public float jumpOnSameWallCoolDown = 0.7f;
     // Use this for initialization
     void Start () {
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //if (!activeScript)
-        //{
-        //    return;
-        //}
+        // Make sure we are not moving to fast
+        jumpTimer -= Time.deltaTime;
+        jumpCoolDownTimer -= Time.deltaTime;
+        jumpOnSameWallCoolDownTimer -= Time.deltaTime;
         Vector3 xzVelocity = Vector3.ProjectOnPlane(GetComponent<Rigidbody>().velocity, new Vector3(0, 1, 0));
         if (sliding && GetComponent<Rigidbody>().velocity.magnitude > maxSlideSpeed)
         {
@@ -51,6 +59,8 @@ public class WallMovement : MonoBehaviour {
         {
             GetComponent<Rigidbody>().velocity = xzVelocity.normalized * maxSpeed + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
         }
+
+        // FIgure out if we are sliding
         totalMoveForce = new Vector3(0, 0, 0);
         if (canSlide && Input.GetKey(KeyCode.Space))
         {
@@ -65,6 +75,8 @@ public class WallMovement : MonoBehaviour {
             sliding = false;
             GetComponent<Rigidbody>().useGravity = true;
         }
+
+
         if (!sliding)
         {
             KeyMovement();
@@ -77,6 +89,7 @@ public class WallMovement : MonoBehaviour {
             //{
             //    sliding = false;
             //    glideTimer = 0;
+            //    GetComponent<Rigidbody>().useGravity = false;
             //}
         }
     }
@@ -96,17 +109,20 @@ public class WallMovement : MonoBehaviour {
         totalCollidingObjects++;
         activeScript = true;
         //doesnt work for multiplecollisions at once ERROR
+        bool newNormal = collisionNormal != collision.contacts[0].normal;
         collisionNormal = collision.contacts[0].normal;
         collisionPoint = collision.contacts[0].point;
         myCollisionPosition = transform.position;
-        if (canJumpOnSameWall || lastSlidedWall != collision.gameObject)
+        if (canJumpOnSameWall || lastSlidedWall != collision.gameObject || newNormal)
         {
             canSlide = true;
+            jumpOnSameWallCoolDownTimer = 0;
             if (collisionNormal == new Vector3(0,1,0))
             {
                 canSlide = false;
             }
         }
+
         collidingWall = collision.gameObject;
     }
 
@@ -119,29 +135,31 @@ public class WallMovement : MonoBehaviour {
     }
     void OnCollisionExit(Collision collisionInfo)
     {
-        if (sliding)
-        {
-            // print("No longer in contact with " + collisionInfo.transform.name);
-            RaycastHit hit;
-            Vector3 currentVelocity = this.GetComponent<Rigidbody>().velocity;
-            if (Physics.Raycast(transform.position + currentVelocity * 0.1f, -collisionNormal, out hit, 4))
-            {
-                //print(hit.transform.name);
+        //if (sliding)
+        //{
+        // Does not work
+        //    // print("No longer in contact with " + collisionInfo.transform.name);
+        //    RaycastHit hit;
+        //    Vector3 currentVelocity = this.GetComponent<Rigidbody>().velocity;
+        //    if (Physics.Raycast(transform.position + currentVelocity * 0.1f, -collisionNormal, out hit, 4))
+        //    {
+        //        //print(hit.transform.name);
 
-                float currentSpeed = currentVelocity.magnitude;
-                Vector3 newVelocity = Vector3.ProjectOnPlane(currentVelocity, hit.normal);
-                print(currentVelocity);
-                newVelocity = newVelocity.normalized * currentSpeed;
-                print(newVelocity);
-                this.GetComponent<Rigidbody>().velocity = newVelocity;
-                totalCollidingObjects--;
-                this.totalMoveForce = new Vector3(0, 0, 0);
-                return;
-            }
-        }
+        //        float currentSpeed = currentVelocity.magnitude;
+        //        Vector3 newVelocity = Vector3.ProjectOnPlane(currentVelocity, hit.normal);
+        //        print(currentVelocity);
+        //        newVelocity = newVelocity.normalized * currentSpeed;
+        //        print(newVelocity);
+        //        this.GetComponent<Rigidbody>().velocity = newVelocity;
+        //        totalCollidingObjects--;
+        //        this.totalMoveForce = new Vector3(0, 0, 0);
+        //        return;
+        //    }
+        //}
         totalCollidingObjects--;
         if (totalCollidingObjects == 0)
         {
+            jumpTimer = leftWallJumpTimer;
             activeScript = false;
             canSlide = false;
             collidingWall = null;
@@ -170,24 +188,31 @@ public class WallMovement : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
         {
             // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * this.transform.right * rightForce;
-            
+            totalMoveForce += -1 * this.transform.right * rightForce;           
         }
         if (Input.GetKey(KeyCode.D))
         {
             
             // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.right * rightForce;
-            
+            totalMoveForce += this.transform.right * rightForce;           
         }   
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCoolDownTimer <= 0.0f)
         {
-            // Add force to where the object's we are standing on's transform is pointing
-            if (collidingWall != null)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, new Vector3(0, -1.0f, 0), out hit, OkToJumpDistance))
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1.2f, 0);
+                Vector3 jumpDirection = hit.normal;
                 totalMoveForce += jumpDirection.normalized * jumpForce;
+                jumpCoolDownTimer = jumpCoolDown;
+            }
+            // Add force to where the object's we are standing on's transform is pointing
+            else if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
+            {
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1.8f, 0);
+                totalMoveForce += jumpDirection.normalized * jumpForce;
+                jumpCoolDownTimer = jumpCoolDown;
+                jumpOnSameWallCoolDownTimer = jumpOnSameWallCoolDown;
             }
         }
 
@@ -211,7 +236,7 @@ public class WallMovement : MonoBehaviour {
             //print(target.normalized);
             totalMoveForce += target.normalized * slideForce;
         }
-        Vector3 addForce = (-1 * cn.normalized * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);// 
+        // Vector3 addForce = (-1 * cn.normalized * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);// 
         //print(addForce);
         //totalMoveForce += addForce;
         //print(totalMoveForce.magnitude + "" + cn + " " + totalMoveForce + "" + GetComponent<Rigidbody>().velocity);
