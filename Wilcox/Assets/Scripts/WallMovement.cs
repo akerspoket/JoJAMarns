@@ -7,6 +7,7 @@ public class WallMovement : MonoBehaviour {
     public float rightForce;
     public float jumpForce;
     public float slideForce;
+    public float inwardForce;
 
     public float maxSpeed;
     public float maxSlideSpeed;
@@ -81,6 +82,7 @@ public class WallMovement : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
+        //print("Entercollision");
         totalCollidingObjects++;
         activeScript = true;
         //doesnt work for multiplecollisions at once ERROR
@@ -90,8 +92,20 @@ public class WallMovement : MonoBehaviour {
         if (canJumpOnSameWall || lastSlidedWall != collision.gameObject)
         {
             canSlide = true;
+            if (collisionNormal == new Vector3(0,1,0))
+            {
+                canSlide = false;
+            }
         }
         collidingWall = collision.gameObject;
+    }
+
+    void OnCollisionStay(Collision collisionInfo)
+    {
+        collisionNormal = collisionInfo.contacts[0].normal;
+        collisionPoint = collisionInfo.contacts[0].point;
+        myCollisionPosition = transform.position;
+
     }
     void OnCollisionExit(Collision collisionInfo)
     {
@@ -99,10 +113,13 @@ public class WallMovement : MonoBehaviour {
         if (totalCollidingObjects == 0)
         {
             activeScript = false;
+            canSlide = false;
+            collidingWall = null;
+            sliding = false;
+            GetComponent<Rigidbody>().useGravity = true;
         }
         // print("No longer in contact with " + collisionInfo.transform.name);
-        canSlide = false;
-        collidingWall = null;
+
     }
 
     void KeyMovement()
@@ -172,5 +189,7 @@ public class WallMovement : MonoBehaviour {
         {
             totalMoveForce += target.normalized * slideForce;
         }
+        totalMoveForce += (-1 * cn * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);
+        print(totalMoveForce.magnitude);
     }
 }
