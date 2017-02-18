@@ -16,6 +16,8 @@ public class AirMovement : MonoBehaviour
 
     private bool active = true;
 
+    private Vector3 totalMoveForce;
+
     // Use this for initialization
     void Start () {
 		
@@ -25,7 +27,7 @@ public class AirMovement : MonoBehaviour
 	void Update () {
         if (active)
         {
-            Vector3 totalMoveForce = new Vector3(0, 0, 0);
+            totalMoveForce = new Vector3(0, 0, 0);
             if (Input.GetKey(KeyCode.W))
             {
                 // Check that we're not flying too fast
@@ -61,7 +63,6 @@ public class AirMovement : MonoBehaviour
                     totalMoveForce += this.transform.right * rightForce;
                 }
             }
-            this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
 
             ///Mouse movement
             yaw += rotateSpeed * Input.GetAxis("Mouse X");
@@ -70,6 +71,10 @@ public class AirMovement : MonoBehaviour
             transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
         }
 	}
+    void FixedUpdate()
+    {
+        this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+    }
 
     void OnCollisionEnter(Collision collisioninfo)
     {
