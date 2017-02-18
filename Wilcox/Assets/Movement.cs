@@ -12,9 +12,12 @@ public class Movement : MonoBehaviour {
     public float jumpForce;
     public float rotateSpeed;
 
+    public float maxSpeed;
 
     private float yaw = 0.0f;
     private float pitch = 0.0f;
+
+    private float upForce;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +28,8 @@ public class Movement : MonoBehaviour {
 	void Update () {
         KeyMovement();
         MouseMovement();
+        if(upForce>0)
+        upForce-=0.1f;
 
     }
 
@@ -51,14 +56,28 @@ public class Movement : MonoBehaviour {
             // Add force to where the object's transform is pointing
             totalMoveForce += this.transform.right * rightForce;
         }
-        totalMoveForce = totalMoveForce.normalized * maxForce;
+        if (Input.GetKey(KeyCode.Q))
+        {
+            upForce = 10;
+        }
+        totalMoveForce += upForce * new Vector3(0,1,0);
+
+        //totalMoveForce = totalMoveForce.normalized * maxForce;
+
+        //if ((GetComponent<Rigidbody>().velocity.magnitude < maxSpeed))
+        {
+            this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+        }
+
+        
+
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.up * jumpForce;
+            this.GetComponent<Rigidbody>().AddForce(this.transform.up * jumpForce);
         }
 
-        this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
     }
 
     void MouseMovement()
