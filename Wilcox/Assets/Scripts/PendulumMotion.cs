@@ -8,6 +8,7 @@ public class PendulumMotion : MonoBehaviour {
     Transform baseGameObject;
     Transform endGameObject;
     Transform[] allGameObjects;
+
 	void Start ()
     {
 
@@ -32,4 +33,22 @@ public class PendulumMotion : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void Activate()
+    {
+        Rigidbody[] rigids = GetComponentsInChildren<Rigidbody>();
+        foreach (var item in rigids)
+        {
+            item.isKinematic = false;
+        }
+    }
+
+    public void Deactivate()
+    {
+        Rigidbody[] rigids = GetComponentsInChildren<Rigidbody>();
+        foreach (var item in rigids)
+        {
+            item.isKinematic = true;
+        }
+    }
 }
