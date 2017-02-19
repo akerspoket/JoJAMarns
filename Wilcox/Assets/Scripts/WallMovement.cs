@@ -46,8 +46,13 @@ public class WallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        totalMoveForce = new Vector3(0, 0, 0);
+        //totalMoveForce = new Vector3(0, 0, 0);
         totalNoImpulsForce = new Vector3(0, 0, 0);
+        // Make sure we are not moving to fast
+        jumpTimer -= Time.deltaTime;
+        jumpCoolDownTimer -= Time.deltaTime;
+        jumpOnSameWallCoolDownTimer -= Time.deltaTime;
+
         JumpMovement();
         if (!activeScript)
         {
@@ -55,10 +60,7 @@ public class WallMovement : MonoBehaviour {
             return;
         }
 
-        // Make sure we are not moving to fast
-        jumpTimer -= Time.deltaTime;
-        jumpCoolDownTimer -= Time.deltaTime;
-        jumpOnSameWallCoolDownTimer -= Time.deltaTime;
+
         Vector3 xzVelocity = Vector3.ProjectOnPlane(GetComponent<Rigidbody>().velocity, new Vector3(0, 1, 0));
         if (sliding && GetComponent<Rigidbody>().velocity.magnitude > maxSlideSpeed)
         {
@@ -107,6 +109,7 @@ public class WallMovement : MonoBehaviour {
     void FixedUpdate()
     {
         this.GetComponent<Rigidbody>().AddForce(totalMoveForce, ForceMode.Impulse);
+        totalMoveForce = new Vector3(0, 0, 0);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -216,18 +219,20 @@ public class WallMovement : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCoolDownTimer <= 0.0f)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, new Vector3(0, -1.0f, 0), out hit, OkToJumpDistance))
-            {
-                Vector3 jumpDirection = hit.normal;
-                totalMoveForce += jumpDirection.normalized * jumpForce;
-                jumpCoolDownTimer = jumpCoolDown;
-            }
+            //RaycastHit hit;
+            //if (Physics.Raycast(transform.position, new Vector3(0, -1.0f, 0), out hit, OkToJumpDistance))
+            //{
+            //    Vector3 jumpDirection = hit.normal;
+            //    totalMoveForce += jumpDirection.normalized * jumpForce;
+            //    jumpCoolDownTimer = jumpCoolDown;
+            //}
             // Add force to where the object's we are standing on's transform is pointing
-            else if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
+            if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 0.1f, 0);
-                totalMoveForce = jumpDirection.normalized * jumpForce*5;
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 0.0f, 0);
+                Vector3 jumpDirectionXZ = new Vector3(jumpDirection.x, 0 ,jumpDirection.z);
+                print("Making jump " + jumpDirection.normalized * jumpForce);
+                this.GetComponent<Rigidbody>().AddForce(jumpDirection.normalized * jumpForce, ForceMode.Impulse);
                 jumpCoolDownTimer = jumpCoolDown;
                 jumpOnSameWallCoolDownTimer = jumpOnSameWallCoolDown;
                 jumpTimer = 0;
