@@ -1,0 +1,504 @@
+fileFormatVersion: 2
+guid: b3bd0d77287b6fa46bf49e06310e6531
+timeCreated: 1487502428
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: left_arm
+    100002: left_armguard
+    100004: left_armlower
+    100006: left_armlower1
+    100008: left_bicepCylinder
+    100010: left_bicepPiston
+    100012: left_elbow2
+    100014: left_elbow_jnt
+    100016: left_fingBase
+    100018: left_fingBase1
+    100020: left_fingBase2
+    100022: left_finger_kn1
+    100024: left_finger_kn1 1
+    100026: left_finger_kn1 2
+    100028: left_finger_kn2
+    100030: left_finger_kn2 1
+    100032: left_finger_kn2 2
+    100034: left_finger_tip
+    100036: left_finger_tip 1
+    100038: left_finger_tip 2
+    100040: left_handBaseRotary
+    100042: left_handGuard
+    100044: left_handInner
+    100046: left_joint10
+    100048: left_joint10 1
+    100050: left_joint11
+    100052: left_joint11 1
+    100054: left_joint12
+    100056: left_joint12 1
+    100058: left_joint13
+    100060: left_joint14
+    100062: left_joint15
+    100064: left_joint16
+    100066: left_joint17
+    100068: left_joint18
+    100070: left_joint19
+    100072: left_joint20
+    100074: left_joint3
+    100076: left_joint4
+    100078: left_joint5
+    100080: left_joint6
+    100082: left_joint7
+    100084: left_joint8
+    100086: left_joint9
+    100088: left_pistbon_2_base
+    100090: left_piston_1_base
+    100092: left_piston_1_rod
+    100094: left_piston_2_rod
+    100096: left_piston_mid_base
+    100098: left_piston_mid_rod
+    100100: left_thumb_base
+    100102: left_thumb_mid
+    100104: left_thumb_tip
+    100106: left_tricepCylinder
+    100108: left_tricepPiston
+    100110: left_upperArm
+    100112: left_upperArm_jnt
+    100114: //RootNode
+    100116: right_arm
+    100118: right_armguard
+    100120: right_armlower
+    100122: right_armlower1
+    100124: right_bicepCylinder
+    100126: right_bicepPiston
+    100128: right_elbow2
+    100130: right_elbow_jnt1
+    100132: right_fingBase
+    100134: right_fingBase1
+    100136: right_fingBase2
+    100138: right_finger_kn1
+    100140: right_finger_kn1 1
+    100142: right_finger_kn1 2
+    100144: right_finger_kn2
+    100146: right_finger_kn2 1
+    100148: right_finger_kn2 2
+    100150: right_finger_tip
+    100152: right_finger_tip 1
+    100154: right_finger_tip 2
+    100156: right_handBaseRotary
+    100158: right_handGuard
+    100160: right_handInner
+    100162: right_joint21
+    100164: right_joint22
+    100166: right_joint23
+    100168: right_joint24
+    100170: right_joint25
+    100172: right_joint26
+    100174: right_joint27
+    100176: right_joint28
+    100178: right_joint29
+    100180: right_joint30
+    100182: right_joint31
+    100184: right_joint32
+    100186: right_joint33
+    100188: right_joint34
+    100190: right_joint35
+    100192: right_joint36
+    100194: right_joint37
+    100196: right_joint38
+    100198: right_joint39
+    100200: right_joint40
+    100202: right_joint41
+    100204: right_pistbon_2_base
+    100206: right_piston_1_base
+    100208: right_piston_1_rod
+    100210: right_piston_2_rod
+    100212: right_piston_mid_base
+    100214: right_piston_mid_rod
+    100216: right_thumb_base
+    100218: right_thumb_mid
+    100220: right_thumb_tip
+    100222: right_tricepCylinder
+    100224: right_tricepPiston
+    100226: right_upperArm1
+    100228: right_upperArm_jnt1
+    400000: left_arm
+    400002: left_armguard
+    400004: left_armlower
+    400006: left_armlower1
+    400008: left_bicepCylinder
+    400010: left_bicepPiston
+    400012: left_elbow2
+    400014: left_elbow_jnt
+    400016: left_fingBase
+    400018: left_fingBase1
+    400020: left_fingBase2
+    400022: left_finger_kn1
+    400024: left_finger_kn1 1
+    400026: left_finger_kn1 2
+    400028: left_finger_kn2
+    400030: left_finger_kn2 1
+    400032: left_finger_kn2 2
+    400034: left_finger_tip
+    400036: left_finger_tip 1
+    400038: left_finger_tip 2
+    400040: left_handBaseRotary
+    400042: left_handGuard
+    400044: left_handInner
+    400046: left_joint10
+    400048: left_joint10 1
+    400050: left_joint11
+    400052: left_joint11 1
+    400054: left_joint12
+    400056: left_joint12 1
+    400058: left_joint13
+    400060: left_joint14
+    400062: left_joint15
+    400064: left_joint16
+    400066: left_joint17
+    400068: left_joint18
+    400070: left_joint19
+    400072: left_joint20
+    400074: left_joint3
+    400076: left_joint4
+    400078: left_joint5
+    400080: left_joint6
+    400082: left_joint7
+    400084: left_joint8
+    400086: left_joint9
+    400088: left_pistbon_2_base
+    400090: left_piston_1_base
+    400092: left_piston_1_rod
+    400094: left_piston_2_rod
+    400096: left_piston_mid_base
+    400098: left_piston_mid_rod
+    400100: left_thumb_base
+    400102: left_thumb_mid
+    400104: left_thumb_tip
+    400106: left_tricepCylinder
+    400108: left_tricepPiston
+    400110: left_upperArm
+    400112: left_upperArm_jnt
+    400114: //RootNode
+    400116: right_arm
+    400118: right_armguard
+    400120: right_armlower
+    400122: right_armlower1
+    400124: right_bicepCylinder
+    400126: right_bicepPiston
+    400128: right_elbow2
+    400130: right_elbow_jnt1
+    400132: right_fingBase
+    400134: right_fingBase1
+    400136: right_fingBase2
+    400138: right_finger_kn1
+    400140: right_finger_kn1 1
+    400142: right_finger_kn1 2
+    400144: right_finger_kn2
+    400146: right_finger_kn2 1
+    400148: right_finger_kn2 2
+    400150: right_finger_tip
+    400152: right_finger_tip 1
+    400154: right_finger_tip 2
+    400156: right_handBaseRotary
+    400158: right_handGuard
+    400160: right_handInner
+    400162: right_joint21
+    400164: right_joint22
+    400166: right_joint23
+    400168: right_joint24
+    400170: right_joint25
+    400172: right_joint26
+    400174: right_joint27
+    400176: right_joint28
+    400178: right_joint29
+    400180: right_joint30
+    400182: right_joint31
+    400184: right_joint32
+    400186: right_joint33
+    400188: right_joint34
+    400190: right_joint35
+    400192: right_joint36
+    400194: right_joint37
+    400196: right_joint38
+    400198: right_joint39
+    400200: right_joint40
+    400202: right_joint41
+    400204: right_pistbon_2_base
+    400206: right_piston_1_base
+    400208: right_piston_1_rod
+    400210: right_piston_2_rod
+    400212: right_piston_mid_base
+    400214: right_piston_mid_rod
+    400216: right_thumb_base
+    400218: right_thumb_mid
+    400220: right_thumb_tip
+    400222: right_tricepCylinder
+    400224: right_tricepPiston
+    400226: right_upperArm1
+    400228: right_upperArm_jnt1
+    2300000: left_armguard
+    2300002: left_armlower
+    2300004: left_armlower1
+    2300006: left_bicepCylinder
+    2300008: left_bicepPiston
+    2300010: left_elbow2
+    2300012: left_fingBase
+    2300014: left_fingBase1
+    2300016: left_fingBase2
+    2300018: left_finger_kn1
+    2300020: left_finger_kn1 1
+    2300022: left_finger_kn1 2
+    2300024: left_finger_kn2
+    2300026: left_finger_kn2 1
+    2300028: left_finger_kn2 2
+    2300030: left_finger_tip
+    2300032: left_finger_tip 1
+    2300034: left_finger_tip 2
+    2300036: left_handBaseRotary
+    2300038: left_handGuard
+    2300040: left_handInner
+    2300042: left_pistbon_2_base
+    2300044: left_piston_1_base
+    2300046: left_piston_1_rod
+    2300048: left_piston_2_rod
+    2300050: left_piston_mid_base
+    2300052: left_piston_mid_rod
+    2300054: left_thumb_base
+    2300056: left_thumb_mid
+    2300058: left_thumb_tip
+    2300060: left_tricepCylinder
+    2300062: left_tricepPiston
+    2300064: left_upperArm
+    2300066: right_armguard
+    2300068: right_armlower
+    2300070: right_armlower1
+    2300072: right_bicepCylinder
+    2300074: right_bicepPiston
+    2300076: right_elbow2
+    2300078: right_fingBase
+    2300080: right_fingBase1
+    2300082: right_fingBase2
+    2300084: right_finger_kn1
+    2300086: right_finger_kn1 1
+    2300088: right_finger_kn1 2
+    2300090: right_finger_kn2
+    2300092: right_finger_kn2 1
+    2300094: right_finger_kn2 2
+    2300096: right_finger_tip
+    2300098: right_finger_tip 1
+    2300100: right_finger_tip 2
+    2300102: right_handBaseRotary
+    2300104: right_handGuard
+    2300106: right_handInner
+    2300108: right_pistbon_2_base
+    2300110: right_piston_1_base
+    2300112: right_piston_1_rod
+    2300114: right_piston_2_rod
+    2300116: right_piston_mid_base
+    2300118: right_piston_mid_rod
+    2300120: right_thumb_base
+    2300122: right_thumb_mid
+    2300124: right_thumb_tip
+    2300126: right_tricepCylinder
+    2300128: right_tricepPiston
+    2300130: right_upperArm1
+    3300000: left_armguard
+    3300002: left_armlower
+    3300004: left_armlower1
+    3300006: left_bicepCylinder
+    3300008: left_bicepPiston
+    3300010: left_elbow2
+    3300012: left_fingBase
+    3300014: left_fingBase1
+    3300016: left_fingBase2
+    3300018: left_finger_kn1
+    3300020: left_finger_kn1 1
+    3300022: left_finger_kn1 2
+    3300024: left_finger_kn2
+    3300026: left_finger_kn2 1
+    3300028: left_finger_kn2 2
+    3300030: left_finger_tip
+    3300032: left_finger_tip 1
+    3300034: left_finger_tip 2
+    3300036: left_handBaseRotary
+    3300038: left_handGuard
+    3300040: left_handInner
+    3300042: left_pistbon_2_base
+    3300044: left_piston_1_base
+    3300046: left_piston_1_rod
+    3300048: left_piston_2_rod
+    3300050: left_piston_mid_base
+    3300052: left_piston_mid_rod
+    3300054: left_thumb_base
+    3300056: left_thumb_mid
+    3300058: left_thumb_tip
+    3300060: left_tricepCylinder
+    3300062: left_tricepPiston
+    3300064: left_upperArm
+    3300066: right_armguard
+    3300068: right_armlower
+    3300070: right_armlower1
+    3300072: right_bicepCylinder
+    3300074: right_bicepPiston
+    3300076: right_elbow2
+    3300078: right_fingBase
+    3300080: right_fingBase1
+    3300082: right_fingBase2
+    3300084: right_finger_kn1
+    3300086: right_finger_kn1 1
+    3300088: right_finger_kn1 2
+    3300090: right_finger_kn2
+    3300092: right_finger_kn2 1
+    3300094: right_finger_kn2 2
+    3300096: right_finger_tip
+    3300098: right_finger_tip 1
+    3300100: right_finger_tip 2
+    3300102: right_handBaseRotary
+    3300104: right_handGuard
+    3300106: right_handInner
+    3300108: right_pistbon_2_base
+    3300110: right_piston_1_base
+    3300112: right_piston_1_rod
+    3300114: right_piston_2_rod
+    3300116: right_piston_mid_base
+    3300118: right_piston_mid_rod
+    3300120: right_thumb_base
+    3300122: right_thumb_mid
+    3300124: right_thumb_tip
+    3300126: right_tricepCylinder
+    3300128: right_tricepPiston
+    3300130: right_upperArm1
+    4300000: left_upperArm
+    4300002: left_tricepCylinder
+    4300004: left_tricepPiston
+    4300006: left_bicepCylinder
+    4300008: left_bicepPiston
+    4300010: left_handGuard
+    4300012: left_fingBase
+    4300014: left_finger_kn1
+    4300016: left_finger_kn2
+    4300018: left_finger_tip
+    4300020: left_fingBase1
+    4300022: left_finger_kn1
+    4300024: left_finger_kn2
+    4300026: left_finger_tip
+    4300028: left_fingBase2
+    4300030: left_finger_kn1
+    4300032: left_finger_kn2
+    4300034: left_finger_tip
+    4300036: left_thumb_base
+    4300038: left_thumb_mid
+    4300040: left_thumb_tip
+    4300042: left_handInner
+    4300044: left_handBaseRotary
+    4300046: left_armlower1
+    4300048: left_armlower
+    4300050: left_elbow2
+    4300052: left_armguard
+    4300054: left_piston_mid_base
+    4300056: left_piston_mid_rod
+    4300058: left_pistbon_2_base
+    4300060: left_piston_2_rod
+    4300062: left_piston_1_base
+    4300064: left_piston_1_rod
+    4300066: right_upperArm1
+    4300068: right_tricepCylinder
+    4300070: right_tricepPiston
+    4300072: right_bicepCylinder
+    4300074: right_bicepPiston
+    4300076: right_handGuard
+    4300078: right_fingBase
+    4300080: right_finger_kn1
+    4300082: right_finger_kn2
+    4300084: right_finger_tip
+    4300086: right_fingBase1
+    4300088: right_finger_kn1
+    4300090: right_finger_kn2
+    4300092: right_finger_tip
+    4300094: right_fingBase2
+    4300096: right_finger_kn1
+    4300098: right_finger_kn2
+    4300100: right_finger_tip
+    4300102: right_thumb_base
+    4300104: right_thumb_mid
+    4300106: right_thumb_tip
+    4300108: right_handInner
+    4300110: right_handBaseRotary
+    4300112: right_armlower1
+    4300114: right_armlower
+    4300116: right_elbow2
+    4300118: right_armguard
+    4300120: right_piston_mid_base
+    4300122: right_piston_mid_rod
+    4300124: right_pistbon_2_base
+    4300126: right_piston_2_rod
+    4300128: right_piston_1_base
+    4300130: right_piston_1_rod
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 2
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
