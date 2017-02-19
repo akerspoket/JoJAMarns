@@ -16,6 +16,7 @@ public class PendelActivator : MonoBehaviour {
     public float delayTime = 0.0f;
     public float delayBetween = 0.0f;
     int currObj = 0;
+    bool activated = false;
     // Use this for initialization
     void Start()
     {
@@ -33,28 +34,27 @@ public class PendelActivator : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        float delay = delayTime;
-        foreach (var item in pendels)
+        if (activated == false)
         {
-            //Activate pendel, additionaly could start animation of trigger
-            switch (activateType)
+            float delay = delayTime;
+            foreach (var item in pendels)
             {
-                case PendelActivateType.All:
-                    Invoke("Activate", 0.0f);
-                    break;
-                case PendelActivateType.Sequence:
-                    Invoke("Activate", delay);
-                    delay += delayBetween;
-                    break;
-                default:
-                    break;
+                //Activate pendel, additionaly could start animation of trigger
+                switch (activateType)
+                {
+                    case PendelActivateType.All:
+                        Invoke("Activate", 0.0f);
+                        break;
+                    case PendelActivateType.Sequence:
+                        Invoke("Activate", delay);
+                        delay += delayBetween;
+                        break;
+                    default:
+                        break;
+                }
             }
-
-
-
+            activated = true;
         }
-
-       
     }
 
     void Activate()
