@@ -2702,11 +2702,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 387.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 36.75
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2714,19 +2714,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.72739077
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.6862235
       objectReference: {fileID: 0}
     - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
       propertyPath: m_RootOrder
@@ -2745,7 +2745,7 @@ Prefab:
     - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
         type: 2}
       propertyPath: maxSpeed
-      value: 13
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 54750020844138756, guid: e0bdf7f5bb938e548bb19022098123b0,
         type: 2}
@@ -2755,12 +2755,31 @@ Prefab:
     - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
         type: 2}
       propertyPath: jumpForce
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
         type: 2}
       propertyPath: maxSlideSpeed
-      value: 13
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: jumpCoolDown
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: jumpOnSameWallCoolDown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4531208412877332, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 93.336006
+      objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: leftWallJumpTimer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114246648072983728, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
