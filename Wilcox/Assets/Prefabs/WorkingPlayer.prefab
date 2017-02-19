@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: 114365167367864072}
   - component: {fileID: 114001222063872730}
   - component: {fileID: 114653268311751066}
+  - component: {fileID: 114833549087225184}
+  - component: {fileID: 114393886592617568}
   m_Layer: 0
   m_Name: WorkingPlayer
   m_TagString: Untagged
@@ -73,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1221795421098990}
   m_LocalRotation: {x: -0, y: 0.72739077, z: -0, w: 0.6862235}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -46.82623, y: 83.052, z: 39.296146}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4311750058631402}
@@ -217,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardForce: 0.2
   rightForce: 0.2
-  jumpForce: 20
+  jumpForce: 15
   slideForce: 2.5
   inwardForce: 0.1
   maxSpeed: 15
@@ -230,6 +232,19 @@ MonoBehaviour:
   jumpCoolDown: 0
   jumpOnSameWallCoolDown: 0
   jumpOffForce: 30
+--- !u!114 &114393886592617568
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221795421098990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8e65269caf52b4f9e2930f844866b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDead: 0
+  checkpoint: {fileID: 0}
 --- !u!114 &114653268311751066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,9 +256,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e97bff3e2290c4f803f15cd96e59fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardForce: 2
-  rightForce: 2
-  maxSpeed: 25
+  forwardForce: 1
+  rightForce: 1
+  maxSpeed: 21
+--- !u!114 &114833549087225184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221795421098990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5cd0f17c5243d4c851d53c0be19073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hookType: 1
+  hookSegment: {fileID: 1258603332587154, guid: d073c195621abd04197c2656f0b48f6d,
+    type: 2}
+  hookEnd: {fileID: 0}
+  segmentLength: 1
+  pullSpeed: 0
+  isActive: 0
+  maxHookLength: 1000
 --- !u!124 &124730174942522776
 Behaviour:
   m_ObjectHideFlags: 1

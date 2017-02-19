@@ -261,7 +261,7 @@ public class WallMovement : MonoBehaviour {
             // Add force to where the object's we are standing on's transform is pointing
             if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, .1f, 0);
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 1.0f, 0);
                 jumpDirection = jumpDirection.normalized;
                 Vector3 jumpDirectionXZ = new Vector3(jumpDirection.x, 0, jumpDirection.z);
                 Vector3 jumpDirectionY = new Vector3(0, jumpDirection.y, 0);
