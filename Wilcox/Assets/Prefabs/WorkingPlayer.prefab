@@ -217,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardForce: 0.2
   rightForce: 0.2
-  jumpForce: 14
+  jumpForce: 20
   slideForce: 2.5
   inwardForce: 0.1
   maxSpeed: 15
@@ -226,9 +226,10 @@ MonoBehaviour:
   canSlideAngle: 0.9
   maxGlideTime: 0
   leftWallJumpTimer: 2
-  OkToJumpDistance: 0.6
+  OkToJumpDistance: 0.7
   jumpCoolDown: 0
-  jumpOnSameWallCoolDown: 2
+  jumpOnSameWallCoolDown: 0
+  jumpOffForce: 30
 --- !u!114 &114653268311751066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,7 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardForce: 2
   rightForce: 2
-  maxSpeed: 20
+  maxSpeed: 25
 --- !u!124 &124730174942522776
 Behaviour:
   m_ObjectHideFlags: 1

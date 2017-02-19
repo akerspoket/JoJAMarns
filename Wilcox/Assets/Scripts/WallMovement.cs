@@ -40,6 +40,7 @@ public class WallMovement : MonoBehaviour {
     public float OkToJumpDistance = 1;
     public float jumpCoolDown = 0.2f;
     public float jumpOnSameWallCoolDown = 0.7f;
+    public float jumpOffForce;
     // Use this for initialization
     void Start () {
     }
@@ -229,7 +230,7 @@ public class WallMovement : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCoolDownTimer <= 0.0f)
         {
             //RaycastHit hit;
-            //if (Physics.SphereCast(transform.position + new Vector3(0, 0.1f, 0), OkToJumpDistance, new Vector3(0, -1, 0), out hit, 0.2f))
+            //if (Physics.SphereCast(transform.position + new Vector3(0, 0.3f, 0), OkToJumpDistance, new Vector3(0, -1, 0), out hit, 0.6f))
             //{
             //    print("Jumping on: " + hit.transform.name);
             //    if (hit.transform.gameObject != this.transform.gameObject)
@@ -260,13 +261,14 @@ public class WallMovement : MonoBehaviour {
             // Add force to where the object's we are standing on's transform is pointing
             if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 0.5f, 0);
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, .1f, 0);
+                jumpDirection = jumpDirection.normalized;
                 Vector3 jumpDirectionXZ = new Vector3(jumpDirection.x, 0, jumpDirection.z);
                 Vector3 jumpDirectionY = new Vector3(0, jumpDirection.y, 0);
-                //this.GetComponent<Rigidbody>().AddForce(jumpDirectionXZ.normalized * jumpForce * 2, ForceMode.Impulse);
-                //this.GetComponent<Rigidbody>().AddForce(jumpDirectionY.normalized * jumpForce, ForceMode.Impulse);
+                this.GetComponent<Rigidbody>().AddForce(jumpDirectionXZ * jumpOffForce, ForceMode.Impulse);
+                this.GetComponent<Rigidbody>().AddForce(jumpDirectionY * jumpForce, ForceMode.Impulse);
                 //print("Making jump " + jumpDirection.normalized * jumpForce);
-                this.GetComponent<Rigidbody>().AddForce(jumpDirection.normalized * jumpForce, ForceMode.Impulse);
+                // this.GetComponent<Rigidbody>().AddForce(jumpDirection.normalized * jumpForce, ForceMode.Impulse);
                 jumpCoolDownTimer = jumpCoolDown;
                 jumpOnSameWallCoolDownTimer = jumpOnSameWallCoolDown;
                 jumpTimer = 0;

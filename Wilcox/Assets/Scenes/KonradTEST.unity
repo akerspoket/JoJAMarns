@@ -2732,6 +2732,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: OkToJumpDistance
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: jumpOnSameWallCoolDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: jumpForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114653268311751066, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: maxSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114365167367864072, guid: e0bdf7f5bb938e548bb19022098123b0,
+        type: 2}
+      propertyPath: jumpOffForce
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0bdf7f5bb938e548bb19022098123b0, type: 2}
   m_IsPrefabParent: 0
