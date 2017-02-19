@@ -28,21 +28,22 @@ public class AirMovement : MonoBehaviour
         if (active)
         {
             totalMoveForce = new Vector3(0, 0, 0);
+            Vector3 xzForward = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
             if (Input.GetKey(KeyCode.W))
             {
                 // Check that we're not flying too fast
-                if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.forward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, this.transform.forward) < 0)
+                if (Vector3.Project(GetComponent<Rigidbody>().velocity, xzForward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, xzForward) < 0)
                 {
                     // Add force to where the object's transform is pointing
-                    totalMoveForce += this.transform.forward * forwardForce;
+                    totalMoveForce += xzForward.normalized * forwardForce;
                 }
             }
             if (Input.GetKey(KeyCode.S))
             {            // Check that we're not flying too fast
-                if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * this.transform.forward) < 0)
+                if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * xzForward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * xzForward) < 0)
                 {
                     // Add force to where the object's transform is pointing
-                    totalMoveForce += -1 * this.transform.forward * forwardForce;
+                    totalMoveForce += -1 * xzForward.normalized * forwardForce;
                 }
             }
             if (Input.GetKey(KeyCode.A))
@@ -69,7 +70,7 @@ public class AirMovement : MonoBehaviour
     {
         if (active)
         {
-            this.GetComponent<Rigidbody>().AddForce(totalMoveForce);
+            this.GetComponent<Rigidbody>().AddForce(totalMoveForce, ForceMode.Impulse);
         }
     }
 

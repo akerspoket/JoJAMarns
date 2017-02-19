@@ -25,8 +25,8 @@ GameObject:
   - component: {fileID: 54750020844138756}
   - component: {fileID: 75510756919968282}
   - component: {fileID: 114365167367864072}
-  - component: {fileID: 114246648072983728}
   - component: {fileID: 114001222063872730}
+  - component: {fileID: 114653268311751066}
   m_Layer: 0
   m_Name: WorkingPlayer
   m_TagString: Untagged
@@ -72,14 +72,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1221795421098990}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 403.44, y: 39.64, z: 0}
+  m_LocalRotation: {x: -0, y: 0.72739077, z: -0, w: 0.6862235}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4311750058631402}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 93.336006, z: 0}
 --- !u!20 &20530159460195622
 Camera:
   m_ObjectHideFlags: 1
@@ -204,20 +204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 4
---- !u!114 &114246648072983728
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1221795421098990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e97bff3e2290c4f803f15cd96e59fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  forwardForce: 10
-  rightForce: 10
-  maxSpeed: 50
 --- !u!114 &114365167367864072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -229,15 +215,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329f8a5e9c6c43c43a6f44b9b3b662a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardForce: 10
-  rightForce: 10
-  jumpForce: 500
-  slideForce: 15
-  inwardForce: 50
-  maxSpeed: 50
-  maxSlideSpeed: 15
-  canJumpOnSameWall: 0
+  forwardForce: 0.2
+  rightForce: 0.2
+  jumpForce: 14
+  slideForce: 2.5
+  inwardForce: 0.1
+  maxSpeed: 15
+  maxSlideSpeed: 21
+  canJumpOnSameWall: 1
+  canSlideAngle: 0.9
   maxGlideTime: 0
+  leftWallJumpTimer: 2
+  OkToJumpDistance: 0.6
+  jumpCoolDown: 0
+  jumpOnSameWallCoolDown: 2
+--- !u!114 &114653268311751066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221795421098990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e97bff3e2290c4f803f15cd96e59fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forwardForce: 2
+  rightForce: 2
+  maxSpeed: 20
 --- !u!124 &124730174942522776
 Behaviour:
   m_ObjectHideFlags: 1

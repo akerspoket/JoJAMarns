@@ -13,7 +13,7 @@ public class WallMovement : MonoBehaviour {
     public float maxSlideSpeed;
 
     public bool canJumpOnSameWall;
-
+    public float canSlideAngle;
 
 
     private float upForce;
@@ -26,6 +26,7 @@ public class WallMovement : MonoBehaviour {
     public float maxGlideTime;
     private bool sliding = false;
     private Vector3 totalMoveForce;
+    private Vector3 totalNoImpulsForce;
     private Vector3 collisionPoint;
     private Vector3 myCollisionPosition;
 
@@ -45,6 +46,15 @@ public class WallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        totalMoveForce = new Vector3(0, 0, 0);
+        totalNoImpulsForce = new Vector3(0, 0, 0);
+        JumpMovement();
+        if (!activeScript)
+        {
+
+            return;
+        }
+
         // Make sure we are not moving to fast
         jumpTimer -= Time.deltaTime;
         jumpCoolDownTimer -= Time.deltaTime;
@@ -61,8 +71,7 @@ public class WallMovement : MonoBehaviour {
         }
 
         // FIgure out if we are sliding
-        totalMoveForce = new Vector3(0, 0, 0);
-        if (canSlide && Input.GetKey(KeyCode.Space))
+        if (canSlide && Input.GetKey(KeyCode.LeftShift))
         {
             lastSlidedWall = collidingWall;
             GetComponent<Rigidbody>().useGravity = false;
@@ -70,7 +79,7 @@ public class WallMovement : MonoBehaviour {
             sliding = true;
             canSlide = false;
         }
-        else if (sliding && Input.GetKeyUp(KeyCode.Space))
+        else if (sliding && Input.GetKeyUp(KeyCode.LeftShift))
         {
             sliding = false;
             GetComponent<Rigidbody>().useGravity = true;
@@ -92,14 +101,11 @@ public class WallMovement : MonoBehaviour {
             //    GetComponent<Rigidbody>().useGravity = false;
             //}
         }
+        //JumpMovement();
     }
 
     void FixedUpdate()
     {
-        //if (!activeScript)
-        //{
-        //    return;
-        //}
         this.GetComponent<Rigidbody>().AddForce(totalMoveForce, ForceMode.Impulse);
     }
 
@@ -117,7 +123,7 @@ public class WallMovement : MonoBehaviour {
         {
             canSlide = true;
             jumpOnSameWallCoolDownTimer = 0;
-            if (collisionNormal == new Vector3(0,1,0))
+            if (Mathf.Abs(Vector3.Dot(collisionNormal, new Vector3(0,1,0))) > canSlideAngle)
             {
                 canSlide = false;
             }
@@ -173,30 +179,41 @@ public class WallMovement : MonoBehaviour {
     void KeyMovement()
     {
         Vector3 xzForward = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
+        Vector3 forceDirection = new Vector3(0,0,0);
         if (Input.GetKey(KeyCode.W))
-        {       
+        {
             // Add force to where the object's transform is pointing
-            totalMoveForce += xzForward.normalized * forwardForce;
-          
+            forceDirection += xzForward.normalized * forwardForce;
+
+
         }
         if (Input.GetKey(KeyCode.S))
-        { 
+        {
             // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * xzForward.normalized * forwardForce;
-            
+            forceDirection += -1 * xzForward.normalized * forwardForce;
+
+
         }
         if (Input.GetKey(KeyCode.A))
         {
             // Add force to where the object's transform is pointing
-            totalMoveForce += -1 * this.transform.right * rightForce;           
+            forceDirection += -1 * this.transform.right * rightForce;
+
         }
         if (Input.GetKey(KeyCode.D))
         {
-            
-            // Add force to where the object's transform is pointing
-            totalMoveForce += this.transform.right * rightForce;           
-        }   
 
+            // Add force to where the object's transform is pointing
+            forceDirection += this.transform.right * rightForce;
+
+        }
+        totalMoveForce += forceDirection;
+       
+
+    }
+
+    private void JumpMovement()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCoolDownTimer <= 0.0f)
         {
             RaycastHit hit;
@@ -209,17 +226,14 @@ public class WallMovement : MonoBehaviour {
             // Add force to where the object's we are standing on's transform is pointing
             else if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 3f, 0);
-                totalMoveForce += jumpDirection.normalized * jumpForce;
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 0.1f, 0);
+                totalMoveForce = jumpDirection.normalized * jumpForce*5;
                 jumpCoolDownTimer = jumpCoolDown;
                 jumpOnSameWallCoolDownTimer = jumpOnSameWallCoolDown;
                 jumpTimer = 0;
             }
         }
-
     }
-
-
 
     private void SlideMovement()
     {
@@ -237,9 +251,10 @@ public class WallMovement : MonoBehaviour {
             //print(target.normalized);
             totalMoveForce += target.normalized * slideForce;
         }
-        // Vector3 addForce = (-1 * cn.normalized * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);// 
-        //print(addForce);
-        //totalMoveForce += addForce;
+        Vector3 addForce = (-1 * cn.normalized * inwardForce * GetComponent<Rigidbody>().velocity.magnitude);// 
+        // print(addForce);
+        totalMoveForce += addForce;
+        // totalNoImpulsForce += addForce;
         //print(totalMoveForce.magnitude + "" + cn + " " + totalMoveForce + "" + GetComponent<Rigidbody>().velocity);
     }
 }
