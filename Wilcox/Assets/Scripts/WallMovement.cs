@@ -47,7 +47,7 @@ public class WallMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //totalMoveForce = new Vector3(0, 0, 0);
+        totalMoveForce = new Vector3(0, 0, 0);
         totalNoImpulsForce = new Vector3(0, 0, 0);
         // Make sure we are not moving to fast
         jumpTimer -= Time.deltaTime;
@@ -55,7 +55,7 @@ public class WallMovement : MonoBehaviour {
         jumpOnSameWallCoolDownTimer -= Time.deltaTime;
 
         JumpMovement();
-        if (!activeScript)
+        if (!activeScript && GetComponent<HookScript>().isActive)
         {
 
             return;

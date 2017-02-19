@@ -18,7 +18,7 @@ public class HookScript : MonoBehaviour {
     GameObject lastJoint = null;
     float chainLength = 0.0f;
     public float pullSpeed = 0.0f;
-
+    public bool isActive = false;
     public float maxHookLength = 1000.0f;
     Vector3 hitPos = new Vector3(0, 0, 0);
 
@@ -100,11 +100,12 @@ public class HookScript : MonoBehaviour {
             Destroy(GetComponent<ConfigurableJoint>());
         }
         lastChain.Clear();
-
+        isActive = false;
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hitinfo;
         if (Physics.Raycast(ray, out hitinfo, maxHookLength))
         {
+            isActive = true;
             hitPos = hitinfo.point;
             Vector3 vectorChain = hitinfo.point - transform.position;
             int numSegments = (int)Mathf.Ceil(vectorChain.magnitude/segmentLength);
@@ -135,6 +136,7 @@ public class HookScript : MonoBehaviour {
     {
         if (lastJoint != null)
         {
+            isActive = false;
             Destroy(lastJoint);
             Destroy(GetComponent<ConfigurableJoint>());
             lastJoint = null;
@@ -144,6 +146,7 @@ public class HookScript : MonoBehaviour {
         RaycastHit hitinfo;
         if (Physics.Raycast(ray, out hitinfo, maxHookLength))
         {
+            isActive = true;
             Vector3 vectorChain = hitinfo.point - transform.position;
 
             // VectorChain length / chain segment
@@ -167,6 +170,7 @@ public class HookScript : MonoBehaviour {
     {
         if (lastJoint != null)
         {
+            isActive = false;
             Destroy(lastJoint);
             Destroy(GetComponent<ConfigurableJoint>());
             lastJoint = null;
@@ -176,6 +180,7 @@ public class HookScript : MonoBehaviour {
         RaycastHit hitinfo;
         if (Physics.Raycast(ray, out hitinfo, maxHookLength))
         {
+            isActive = true;
             hitPos = hitinfo.point;
             Vector3 vectorChain = hitinfo.point - transform.position;
             chainLength = vectorChain.magnitude;
