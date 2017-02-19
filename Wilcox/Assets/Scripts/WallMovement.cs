@@ -67,10 +67,10 @@ public class WallMovement : MonoBehaviour {
             //print("Setvelo");
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * maxSlideSpeed;
         }    
-        else if ((xzVelocity).magnitude >= maxSpeed)
-        {
-            GetComponent<Rigidbody>().velocity = xzVelocity.normalized * maxSpeed + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
-        }
+        //else if ((xzVelocity).magnitude >= maxSpeed)
+        //{
+        //    GetComponent<Rigidbody>().velocity = xzVelocity.normalized * maxSpeed + new Vector3(0, GetComponent<Rigidbody>().velocity.y, 0);
+        //}
 
         // FIgure out if we are sliding
         if (canSlide && Input.GetKey(KeyCode.LeftShift))
@@ -183,34 +183,43 @@ public class WallMovement : MonoBehaviour {
     {
         Vector3 xzForward = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
         Vector3 forceDirection = new Vector3(0,0,0);
+        //Vector3 xzForward = Vector3.ProjectOnPlane(transform.forward, new Vector3(0, 1, 0));
         if (Input.GetKey(KeyCode.W))
         {
-            // Add force to where the object's transform is pointing
-            forceDirection += xzForward.normalized * forwardForce;
-
-
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, xzForward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, xzForward) < 0)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += xzForward.normalized * forwardForce;
+            }
         }
         if (Input.GetKey(KeyCode.S))
-        {
-            // Add force to where the object's transform is pointing
-            forceDirection += -1 * xzForward.normalized * forwardForce;
-
-
+        {            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * xzForward).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * xzForward) < 0)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += -1 * xzForward.normalized * forwardForce;
+            }
         }
         if (Input.GetKey(KeyCode.A))
         {
-            // Add force to where the object's transform is pointing
-            forceDirection += -1 * this.transform.right * rightForce;
-
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, -1 * this.transform.right).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, -1 * this.transform.right) < 0)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += -1 * this.transform.right * rightForce;
+            }
         }
         if (Input.GetKey(KeyCode.D))
         {
-
-            // Add force to where the object's transform is pointing
-            forceDirection += this.transform.right * rightForce;
-
+            // Check that we're not flying too fast
+            if (Vector3.Project(GetComponent<Rigidbody>().velocity, this.transform.right).magnitude < maxSpeed || Vector3.Dot(GetComponent<Rigidbody>().velocity, this.transform.right) < 0)
+            {
+                // Add force to where the object's transform is pointing
+                totalMoveForce += this.transform.right * rightForce;
+            }
         }
-        totalMoveForce += forceDirection;
+        //totalMoveForce += forceDirection;
        
 
     }
@@ -219,6 +228,28 @@ public class WallMovement : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCoolDownTimer <= 0.0f)
         {
+            //RaycastHit hit;
+            //if (Physics.SphereCast(transform.position + new Vector3(0, 0.1f, 0), OkToJumpDistance, new Vector3(0, -1, 0), out hit, 0.2f))
+            //{
+            //    print("Jumping on: " + hit.transform.name);
+            //    if (hit.transform.gameObject != this.transform.gameObject)
+            //    {
+            //        if (jumpOnSameWallCoolDownTimer < 0)
+            //        {
+
+            //            Vector3 jumpDirection = hit.point - transform.position;
+            //            Vector3 jumpDirectionXZ = new Vector3(jumpDirection.x, 0, jumpDirection.z);
+            //            Vector3 jumpDirectionY = new Vector3(0, jumpDirection.y, 0);
+            //            this.GetComponent<Rigidbody>().AddForce(-jumpDirection.normalized * jumpForce, ForceMode.Impulse);
+            //            //this.GetComponent<Rigidbody>().AddForce(-jumpDirectionY.normalized * jumpForce, ForceMode.Impulse);
+            //            print("Jumping on: " + hit.transform.name + "In direction" + jumpDirection);
+            //            jumpCoolDownTimer = jumpCoolDown;
+            //            jumpOnSameWallCoolDownTimer = jumpOnSameWallCoolDown;
+            //            jumpTimer = 0;
+            //        }
+            //    }
+            //}
+
             //RaycastHit hit;
             //if (Physics.Raycast(transform.position, new Vector3(0, -1.0f, 0), out hit, OkToJumpDistance))
             //{
@@ -229,9 +260,12 @@ public class WallMovement : MonoBehaviour {
             // Add force to where the object's we are standing on's transform is pointing
             if ((collidingWall != null || jumpTimer > 0) && jumpOnSameWallCoolDownTimer < 0)
             {
-                Vector3 jumpDirection = collisionNormal + new Vector3(0, 0.0f, 0);
-                Vector3 jumpDirectionXZ = new Vector3(jumpDirection.x, 0 ,jumpDirection.z);
-                print("Making jump " + jumpDirection.normalized * jumpForce);
+                Vector3 jumpDirection = collisionNormal + new Vector3(0, 0.5f, 0);
+                Vector3 jumpDirectionXZ = new Vector3(jumpDirection.x, 0, jumpDirection.z);
+                Vector3 jumpDirectionY = new Vector3(0, jumpDirection.y, 0);
+                //this.GetComponent<Rigidbody>().AddForce(jumpDirectionXZ.normalized * jumpForce * 2, ForceMode.Impulse);
+                //this.GetComponent<Rigidbody>().AddForce(jumpDirectionY.normalized * jumpForce, ForceMode.Impulse);
+                //print("Making jump " + jumpDirection.normalized * jumpForce);
                 this.GetComponent<Rigidbody>().AddForce(jumpDirection.normalized * jumpForce, ForceMode.Impulse);
                 jumpCoolDownTimer = jumpCoolDown;
                 jumpOnSameWallCoolDownTimer = jumpOnSameWallCoolDown;
