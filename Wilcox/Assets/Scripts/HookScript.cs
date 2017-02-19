@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// Keep the velocoty when doing breakablePOLE
 public class HookScript : MonoBehaviour {
     public enum HookType
     {
@@ -24,7 +24,7 @@ public class HookScript : MonoBehaviour {
 
     List<GameObject> lastChain = new List<GameObject>();
 
-    float epsilon = 1.0f;
+    float epsilon = -0.1f;
 
     bool fulFix = false;
 	// Use this for initialization
@@ -209,7 +209,7 @@ public class HookScript : MonoBehaviour {
             return;
         }
 
-        Ray ray = new Ray(transform.position, hitPos - transform.position);
+        Ray ray = new Ray(transform.position, (hitPos - transform.position).normalized);
         RaycastHit hitinfo;
         if (Physics.Raycast(ray, out hitinfo, maxHookLength))
         {
@@ -218,12 +218,27 @@ public class HookScript : MonoBehaviour {
             Vector3 vectorChain = hitinfo.point - transform.position;
             if (vectorChain.magnitude < chainLength + epsilon)
             {
-                Debug.Log("Creating new rope");
+                //Kolla Velocityn ta längden på den och sätt den i rätt riktning så att velocityn preservas när vi byter hinge.(JOINT)
+                // New midpos
+                lastJoint.GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Free;
+                lastJoint.GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Free;
+                lastJoint.GetComponent<ConfigurableJoint>().zMotion = ConfigurableJointMotion.Free;
+                lastJoint.transform.position = hitinfo.point + (hitPos - hitinfo.point)*0.5f;
+                lastJoint.GetComponent<Rigidbody>().isKinematic = true;
 
+
+                lastJoint.transform.localScale = new Vector3(lastJoint.transform.localScale.x, lastJoint.transform.localScale.y, (hitPos - hitinfo.point).magnitude);
+                lastChain.Add(lastJoint);
+
+                hitPos = hitinfo.point;
+                chainLength = vectorChain.magnitude;
                 ConfigurableJoint joint = gameObject.GetComponent<ConfigurableJoint>();
 
                 // position should be halfway between us and point
-                lastJoint = Instantiate(hookSegment, transform.position + vectorChain * 0.5f, transform.rotation);
+
+                //Transform forVecToQauternion = new Transform();//= ray.direction;
+                //forVecToQauternion.position = ray.direction;
+                lastJoint = Instantiate(hookSegment, transform.position + vectorChain * 0.5f, Quaternion.LookRotation(vectorChain.normalized, Vector3.up));
                 lastJoint.transform.localScale = new Vector3(lastJoint.transform.localScale.x, lastJoint.transform.localScale.y, vectorChain.magnitude);
                 ConfigurableJoint jointChain = lastJoint.GetComponent<ConfigurableJoint>();
                 jointChain.anchor = jointChain.anchor;
