@@ -21,5 +21,7 @@ public class Checkpoint : MonoBehaviour {
         {
             health.checkpoint = gameObject;
         }
+
+        other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }
