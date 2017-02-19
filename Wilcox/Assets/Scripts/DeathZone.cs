@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour {
 
-    public bool isInfinityPlane = false;
+    public bool isInfinityPlane = true;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +27,7 @@ public class DeathZone : MonoBehaviour {
         else
         {
             // Spike trap
+            health.KillByFall();
 
         }
     }
